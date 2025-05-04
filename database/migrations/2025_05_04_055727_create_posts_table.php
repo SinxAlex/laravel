@@ -8,15 +8,21 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * Миграция для создания таблицы 'post_vacancy' - публикации
+     * Связанные таблицы:
+     *  - users - many-to-one
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('post_vacancy', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->date("date_start");  //дата когда должен выйти на смену исполнтель
-            $table->integer("hours"); //часы работы
-            $table->float("price");   //сумма, которую получит заказчик
+            $table->date("start_at")->comment('дата когда должен выйти на смену исполнтель');
+            $table->integer("title")->comment('название вакансии');
+            $table->integer("hours_work")->comment('Часы работы');
+            $table->float("price")->comment('сумма, которую получит заказчик');
+            $table->integer("id_user")->comment('id пользователя опубликавший  вакансию');
+            $table->boolean("view")->comment('скрытая вакансия или открытая')->default(false);
         });
     }
 
@@ -25,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('post_vacancy');
     }
 };
