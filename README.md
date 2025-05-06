@@ -1,5 +1,5 @@
 # Тестовое задание 
-![Laravel](https://img.shields.io/badge/Laravel-v8.0-orange?style=flat-square)
+![Laravel](https://img.shields.io/badge/Laravel-v10.0-orange?style=flat-square)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-v13.0-blue?style=flat-square)
 ![MVC](https://img.shields.io/badge/Architecture-MVC-green?style=flat-square)
 
