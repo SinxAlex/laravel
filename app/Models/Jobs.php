@@ -17,4 +17,7 @@ class Jobs extends Model
         'id_user',
         'hours',
     ];
+
+
+
 }

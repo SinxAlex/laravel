@@ -1,0 +1,87 @@
+services:
+    app:
+        build:
+            context: .
+            dockerfile: DockerFile
+        container_name: laravel_app
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - .:/var/www
+        environment:
+            - DB_CONNECTION=pgsql
+            - DB_HOST=db
+            - DB_PORT=5432
+            - DB_DATABASE=laravel
+            - DB_USERNAME=laravel
+            - DB_PASSWORD=secret
+        depends_on:
+            - db
+        networks:
+            - laravel_network
+
+    db:
+        image: postgres:13
+        container_name: laravel_db
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: laravel
+            POSTGRES_USER: laravel
+            POSTGRES_PASSWORD: secret
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+        networks:
+            - laravel_network
+
+    webserver:
+        image: nginx:alpine
+        container_name: laravel_nginx
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - .:/var/www
+            - ./docker/nginx:/etc/nginx/conf.d
+        depends_on:
+            - app
+        networks:
+            - laravel_network
+
+networks:
+    laravel_network:
+        driver: bridge
+
+volumes:
+    postgres_data:
+        driver: local
+
+
+migrator:
+    build: .  # Собираем образ из текущей директории
+    depends_on:
+        db:
+            condition: service_healthy  # Ждем пока БД станет доступной
+    command: >
+        sh -c "
+        # Выполняем миграции (--force для пропуска подтверждений)
+        php artisan migrate --force;
+
+        # Запускаем сидеры (--force для production-режима)
+        php artisan db:seed --force;
+
+        # Можно указать конкретный сидер:
+        # php artisan db:seed --class=DatabaseSeeder --force
+        "
+    networks:
+        - laravel_network  # Подключаем к той же сети, что и другие сервисы
+    volumes:
+        - .:/var/www  # Монтируем код проекта (если нужен доступ к файлам)
+    environment:
+        - DB_CONNECTION=pgsql  # Дублируем переменные из сервиса app
+        - DB_HOST=db
+        - DB_PORT=5432
+        - DB_DATABASE=laravel
+        - DB_USERNAME=laravel
+        - DB_PASSWORD=secret

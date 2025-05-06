@@ -14,11 +14,6 @@ class JobsController extends Controller
      */
     public function index()
     {
-        $user = User::find(1);
-        $user->assignRole('admin');
-
-        $contractor = User::find(2);
-        $contractor->assignRole('contractor');
         $jobs = Jobs::all();
         return view('jobs.index',compact('jobs'));
         //
