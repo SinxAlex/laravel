@@ -10,12 +10,12 @@
     docker-compose up --build
 ```
 
-##Запуск миграции
+Запуск миграции
 ```
     docker exec -it laravel_app php artisan migrate
 ```
 
-##Запуск сидов
+Запуск сидов
 ```
     docker exec -it laravel_app php artisan db:seed
 ```
