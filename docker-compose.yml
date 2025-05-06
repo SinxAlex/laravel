@@ -58,30 +58,3 @@ volumes:
         driver: local
 
 
-migrator:
-    build: .  # Собираем образ из текущей директории
-    depends_on:
-        db:
-            condition: service_healthy  # Ждем пока БД станет доступной
-    command: >
-        sh -c "
-        # Выполняем миграции (--force для пропуска подтверждений)
-        php artisan migrate --force;
-
-        # Запускаем сидеры (--force для production-режима)
-        php artisan db:seed --force;
-
-        # Можно указать конкретный сидер:
-        # php artisan db:seed --class=DatabaseSeeder --force
-        "
-    networks:
-        - laravel_network  # Подключаем к той же сети, что и другие сервисы
-    volumes:
-        - .:/var/www  # Монтируем код проекта (если нужен доступ к файлам)
-    environment:
-        - DB_CONNECTION=pgsql  # Дублируем переменные из сервиса app
-        - DB_HOST=db
-        - DB_PORT=5432
-        - DB_DATABASE=laravel
-        - DB_USERNAME=laravel
-        - DB_PASSWORD=secret
