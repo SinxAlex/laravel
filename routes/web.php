@@ -34,12 +34,13 @@ Route::resource('jobs', JobsController::class)->middleware('auth');;
 Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/jobs/create', [JobsController::class, 'create'])->name('jobs.create');
     Route::get('/jobs/{job}/edit', [JobsController::class, 'edit'])->name('jobs.edit');
-    Route::get('/jobs/{job}/show', [JobsController::class, 'show'])->name('jobs.show');
     Route::get('/jobs/{job}/delete', [JobsController::class, 'delete'])->name('jobs.delete');
 });
 
 
-Route::group(['middleware' => ['auth', 'role:contractor']], function () {
+
+
+Route::group(['middleware' => ['auth', 'permission:show']], function () {
     Route::get('/jobs/{job}/show', [JobsController::class, 'show'])->name('jobs.show');
 });
 

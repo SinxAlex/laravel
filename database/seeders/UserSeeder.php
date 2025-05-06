@@ -16,16 +16,13 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
-        $adminRole = Role::create(['name' => 'admin']);
-        $contractorRole = Role::create(['name' => 'contractor']);
-
 
         $admin = User::create([
             'name' => 'Admin',
             'email' => 'test@example.com',
             'password' => Hash::make('123456'),
         ]);
-        $admin->assignRole($adminRole);
+        $admin->assignRole('admin');
 
 
         $contractor = User::create([
@@ -33,6 +30,6 @@ class UserSeeder extends Seeder
             'email' => 'test2@example.com',
             'password' => Hash::make('123456'),
         ]);
-        $contractor->assignRole($contractorRole);
+        $contractor->assignRole('contractor');
     }
 }
