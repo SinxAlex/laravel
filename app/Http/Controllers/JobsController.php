@@ -13,7 +13,8 @@ class JobsController extends Controller
      */
     public function index()
     {
-        return view('jobs.index');
+        $jobs = Jobs::all();
+        return view('jobs.index',compact('jobs'));
         //
     }
 
@@ -31,7 +32,15 @@ class JobsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'started_at'=>'date',
+            'price'=>'required|numeric',
+            'hours'=>'required|numeric',
+        ]);
+        $validated['id_user'] = auth()->id();
+        Jobs::create($validated);
+        return redirect()->route('jobs.index')->with('success', 'Вакансия создана успешно!');
     }
 
     /**
@@ -47,7 +56,8 @@ class JobsController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $jobs =Jobs::find($id);
+        return view('jobs.edit',compact('jobs'));
     }
 
     /**

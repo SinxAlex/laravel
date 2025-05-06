@@ -30,12 +30,13 @@ Route::middleware('auth')->group(function () {
 
 //
 
+
 Route::resource('jobs', JobsController::class)->middleware('auth');;
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/jobs', [JobsController::class, 'index']);
-    Route::get('/jobs/create', [JobsController::class, 'create']);
-
+    Route::get('/jobs', [JobsController::class, 'index'])->name('jobs.index');
+    Route::get('/jobs/create', [JobsController::class, 'create'])->name('jobs.create');
+    Route::get('/jobs/create', [JobsController::class, 'create'])->name('jobs.edit');
 });
 
 require __DIR__.'/auth.php';
