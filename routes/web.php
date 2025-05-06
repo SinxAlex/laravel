@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\JobsController;
 /*
@@ -33,10 +34,18 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('jobs', JobsController::class)->middleware('auth');;
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/jobs', [JobsController::class, 'index'])->name('jobs.index');
+
+
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
     Route::get('/jobs/create', [JobsController::class, 'create'])->name('jobs.create');
-    Route::get('/jobs/create', [JobsController::class, 'create'])->name('jobs.edit');
+    Route::get('/jobs/{job}/edit', [JobsController::class, 'edit'])->name('jobs.edit');
+    Route::get('/jobs/{job}/show', [JobsController::class, 'show'])->name('jobs.show');
+    Route::get('/jobs/{job}/delete', [JobsController::class, 'delete'])->name('jobs.delete');
+});
+
+
+Route::group(['middleware' => ['auth', 'role:contractor']], function () {
+    Route::get('/jobs/{job}/show', [JobsController::class, 'show'])->name('jobs.show');
 });
 
 require __DIR__.'/auth.php';

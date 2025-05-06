@@ -46,15 +46,20 @@ class DataTable extends Component
         ]);
     }
 
-    public function view($id) {
-        return redirect()->route('jobs.create', $id);
+    public function show($id) {
+        return redirect()->route('jobs.show', $id);
     }
     public function edit($id) {
         return redirect()->route('jobs.edit', $id);
     }
     public function delete($id) {
+        if (!auth()->user()->hasRole('admin')) {
+            abort(403, 'Доступ запрещён');
+        }
 
-        Jobs::destroy($id)->with('success', 'Вакансия создана успешно!');;
+        Jobs::destroy($id);
+        session()->flash('success', 'Запись успешно удалена!');
+        $this->resetPage();
     }
 
 

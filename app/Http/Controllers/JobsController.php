@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Queue\Jobs\Job;
 use App\Models\Jobs;
+use App\Models\User;
 
 class JobsController extends Controller
 {
@@ -13,6 +14,11 @@ class JobsController extends Controller
      */
     public function index()
     {
+        $user = User::find(1);
+        $user->assignRole('admin');
+
+        $contractor = User::find(2);
+        $contractor->assignRole('contractor');
         $jobs = Jobs::all();
         return view('jobs.index',compact('jobs'));
         //
@@ -40,7 +46,7 @@ class JobsController extends Controller
         ]);
         $validated['id_user'] = auth()->id();
         Jobs::create($validated);
-        return redirect()->route('jobs.index')->with('success', 'Вакансия создана успешно!');
+        return redirect()->route('jobs.index');
     }
 
     /**
@@ -48,7 +54,8 @@ class JobsController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $jobs =Jobs::find($id);
+        return view('jobs.show',compact('jobs'));
     }
 
     /**
@@ -60,19 +67,4 @@ class JobsController extends Controller
         return view('jobs.edit',compact('jobs'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

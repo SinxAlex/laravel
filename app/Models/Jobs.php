@@ -16,6 +16,5 @@ class Jobs extends Model
         'price',
         'id_user',
         'hours',
-
     ];
 }
