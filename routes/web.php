@@ -15,9 +15,6 @@ use App\Http\Controllers\JobsController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -43,5 +40,9 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 Route::group(['middleware' => ['auth', 'permission:show']], function () {
     Route::get('/jobs/{job}/show', [JobsController::class, 'show'])->name('jobs.show');
 });
+
+Route::get('/', function () {
+    return view('jobs.index');
+})->middleware(['auth']);
 
 require __DIR__.'/auth.php';

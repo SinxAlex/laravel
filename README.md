@@ -9,22 +9,14 @@
 ```
    docker-compose build --no-cache
 ```
-
 Запуск проекта
 ```
   docker-compose up
 ```
-Установка ключа artisan key:
-```
-  docker exec -it laravel_app php artisan key:generate
-```
-
-
 Запуск миграции:
 ```
     docker exec -it laravel_app php artisan migrate
 ```
-
 Запуск сидов:
 ```
     docker exec -it laravel_app php artisan db:seed
