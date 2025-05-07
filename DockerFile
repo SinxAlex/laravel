@@ -19,7 +19,7 @@ WORKDIR /var/www
 
 COPY . .
 
-
+RUN composer install --no-dev --no-interaction
 RUN composer dump-autoload --optimize
 
 
