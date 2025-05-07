@@ -10,21 +10,17 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo pdo_pgsql zip
 
 # Установка Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Рабочая директория
 WORKDIR /var/www
 
 # Копируем код и устанавливаем зависимости
+
 COPY . .
 
 
-
-
-
-RUN composer install
-
-
+RUN composer dump-autoload --optimize
 
 
 
@@ -35,6 +31,4 @@ RUN chmod -R 775 /var/www/storage
 
 CMD ["php-fpm"]
 
-COPY init.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/init.sh
-ENTRYPOINT ["init.sh"]
+

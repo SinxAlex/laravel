@@ -14,6 +14,10 @@
 ```
   docker-compose up
 ```
+Установка ключа artisan key:
+```
+  docker exec -it laravel_app php artisan key:generate
+```
 
 
 Запуск миграции:
