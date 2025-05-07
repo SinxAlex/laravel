@@ -7,8 +7,14 @@
 ## Инструкции по развертыванию проекта Laravel в Docker
 Сборка проекта
 ```
-    docker-compose up --build
+   docker-compose build --no-cache
 ```
+
+Запуск проекта
+```
+  docker-compose up
+```
+
 
 Запуск миграции:
 ```

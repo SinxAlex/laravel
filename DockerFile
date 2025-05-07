@@ -38,4 +38,3 @@ CMD ["php-fpm"]
 COPY init.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/init.sh
 ENTRYPOINT ["init.sh"]
-
