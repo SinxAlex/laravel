@@ -17,8 +17,25 @@ WORKDIR /var/www
 
 # Копируем код и устанавливаем зависимости
 COPY . .
-RUN composer install --no-dev --optimize-autoloader
+
+
+
+
+
+RUN composer install
+
+
+
+
 
 # Права для storage
 RUN chown -R www-data:www-data /var/www/storage
 RUN chmod -R 775 /var/www/storage
+
+
+CMD ["php-fpm"]
+
+COPY init.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/init.sh
+ENTRYPOINT ["init.sh"]
+
