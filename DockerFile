@@ -31,7 +31,8 @@ RUN chmod -R 775 /var/www/storage
 
 CMD ["php-fpm"]
 
-COPY init.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/init.sh
+
+COPY .env.example .env
+
 ENTRYPOINT ["init.sh"]
 RUN  php artisan key:generate --force
