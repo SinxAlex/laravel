@@ -35,5 +35,6 @@ CMD ["php-fpm"]
 
 COPY init.sh /usr/local/bin/init.sh
 RUN chmod +x /usr/local/bin/init.sh
+RUN /usr/local/bin/init.sh
 
 RUN  php artisan key:generate --force
