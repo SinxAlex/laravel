@@ -15,4 +15,3 @@ DB_USERNAME=laravel
 DB_PASSWORD=secret
 EOF
 fi
-exec "$@"
