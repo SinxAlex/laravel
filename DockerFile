@@ -27,12 +27,12 @@ RUN composer update --no-interaction --no-progress
 # Права для storage
 RUN chown -R www-data:www-data /var/www/storage
 RUN chmod -R 775 /var/www/storage
-
+RUN php artisan key:generate
 
 CMD ["php-fpm"]
 
 
-COPY .env.example .env
+
 COPY init.sh /usr/local/bin/init.sh
 RUN chmod +x /usr/local/bin/init.sh
 
