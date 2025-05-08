@@ -33,6 +33,7 @@ CMD ["php-fpm"]
 
 
 COPY .env.example .env
+COPY init.sh /usr/local/bin/init.sh
+RUN chmod +x /usr/local/bin/init.sh
 
-ENTRYPOINT ["init.sh"]
 RUN  php artisan key:generate --force
