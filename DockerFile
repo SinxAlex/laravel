@@ -28,12 +28,11 @@ RUN composer update --no-interaction --no-progress
 RUN chown -R www-data:www-data /var/www/storage
 RUN chmod -R 775 /var/www/storage
 
-COPY init.sh /usr/local/bin/init.sh
-RUN chmod +x /usr/local/bin/init.sh && \
-    mkdir -p /var/www && \
-    /usr/local/bin/init.sh
+RUN chmod +x init.sh
+RUN ./init.sh
 
-RUN php artisan key:generate
+
+RUN php artisan key:generate --force
 
 CMD ["php-fpm"]
 
